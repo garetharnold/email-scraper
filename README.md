@@ -1,13 +1,13 @@
 
 # Email Scraper Script
 
-This script scrapes email addresses from a list of URLs provided in a CSV file. It also allows for email enrichment using the Hunter.io API and supports converting JSON output to CSV format.
+This script scrapes email addresses from a list of URLs provided in a CSV file. It also allows for email enrichment using the [Hunter.io API](https://hunter.io/) and supports converting JSON output to CSV format.
 
 ## Features
 
 - Scrapes email addresses from URLs.
 - Follows "contact" links to find additional emails.
-- Enriches email data using Hunter.io API (if configured).
+- Enriches email data using [Hunter.io API](https://hunter.io/) (if configured).
 - Handles URLs without HTTP/HTTPS schema.
 - Logs all actions, errors, and progress.
 - Supports converting JSON output to CSV format.
@@ -146,7 +146,7 @@ testsite.com,support@testsite.com,Bob,Brown,Support,88
 
 ## Notes
 
-- Ensure that the `config.json` file is correctly configured with your Hunter.io API key if you want to use the email enrichment feature.
+- Ensure that the `config.json` file is correctly configured with your [Hunter.io API](https://hunter.io/) key if you want to use the email enrichment feature.
 - The script gracefully handles errors and logs all issues to help with troubleshooting.
 
 ## License
