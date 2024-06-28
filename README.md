@@ -19,11 +19,11 @@ python3 orchestrator.py input.csv
 # Runs the scraper and outputs in JSON format (default)
 python3 orchestrator.py input.csv -o json 
 
-# Runs the scraper and outputs in CSV format
+# Runs the scraper and outputs in CSV format (and json)
 python3 orchestrator.py input.csv -o csv   
 
 # Converts existing JSON file to CSV format
-python3 orchestrator.py input.csv --convert    
+python3 orchestrator.py output.json --convert    
 
 # Runs the scraper ignoring SSL certificate errors
 python3 orchestrator.py input.csv --ignore-certificate-errors  
