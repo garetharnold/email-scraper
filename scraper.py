@@ -117,16 +117,16 @@ def setup_logging():
 
 def ensure_schema(url):
     if not urlparse(url).scheme:
-        return 'http://' + url
+        return 'https://' + url
     return url
 
 def scrape_with_fallback(url, browser):
     try:
         return scrape_page(url, browser)
     except Exception as e:
-        logging.error(f"Error with HTTP: {e}, trying HTTPS...")
-        https_url = 'https://' + urlparse(url).netloc
-        return scrape_page(https_url, browser)
+        logging.error(f"Error with HTTPS: {e}, trying HTTP...")
+        http_url = 'http://' + urlparse(url).netloc
+        return scrape_page(http_url, browser)
 
 def convert_json_to_csv(json_file, output_file):
     with open(json_file, "r") as file:
@@ -178,7 +178,11 @@ def main():
                 if domain not in result:
                     result[domain] = []
                 result[domain].extend(emails)
-                logging.info(f"Found emails for {domain}: {', '.join(email['value'] for email in emails)}")
+                email_values = [email['value'] for email in emails if 'value' in email]
+                if email_values:
+                    logging.info(f"Found emails for {domain}: {', '.join(email_values)}")
+                else:
+                    logging.info(f"No emails found for {domain}")
             
             time.sleep(config.get("wait_time", 1))
             logging.info(f"Completed {idx}/{total_urls} domains.")
