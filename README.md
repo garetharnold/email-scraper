@@ -3,9 +3,30 @@
 ## Overview
 This script is designed to scrape email addresses from a list of URLs provided in a CSV file. It is equipped with robust features to extract emails from both HTML source and rendered content, follow contact page links, and enrich data using the Hunter.io API. Additionally, it supports structured data extraction and customizable settings via a configuration file.
 
+## Usage
+To run the script, use the following commands:
+
+``` 
+# Shows possible arguments
+python3 orchestrator.py --help          
+
+# Runs the scraper with the provided input CSV file
+python3 orchestrator.py input.csv       
 ```
-python3 orchestrator.py (shows possible args)
-python3 orchestrator.py input.csv 
+
+### Example Usage:
+``` 
+# Runs the scraper and outputs in JSON format (default)
+python3 orchestrator.py input.csv -o json 
+
+# Runs the scraper and outputs in CSV format
+python3 orchestrator.py input.csv -o csv   
+
+# Converts existing JSON file to CSV format
+python3 orchestrator.py input.csv --convert    
+
+# Runs the scraper ignoring SSL certificate errors
+python3 orchestrator.py input.csv --ignore-certificate-errors  
 ```
 
 ## Features
@@ -46,7 +67,7 @@ python3 orchestrator.py input.csv
    - Options to ignore SSL certificate errors.
 
 4. **User-Agent Rotation:**
-   - Rotates user-agents to mimic different browsers and avoid detection.
+   - Not implemented yet.
 
 ## Use Cases
 - **Lead Generation:**
@@ -94,61 +115,120 @@ The script uses a `config.json` file for configuration, allowing customization o
 ## Example Files
 
 ### `input.csv`
-```csv
+```
 urls
 https://example.com
 http://testsite.com
 ```
 
 ### `config.json`
-```json
+```
 {
-    "api_key": "your_hunter_api_key",
-    "use_hunter": true,
-    "wait_time": 1
+    "scraping_settings": {
+        "wait_time": 1,
+        "timeout": 30000,
+        "retry_attempts": 3
+    },
+    "search_keywords": {
+        "contact_keywords": ["contact", "support", "help", "about", "info"]
+    },
+    "output_settings": {
+        "enable_csv": false,
+        "enable_schema_crawling": true
+    },
+    "api_keys": {
+        "use_hunter": false,
+        "hunter_api_key": "your_hunter_api_key_here"
+    },
+    "logging_settings": {
+        "log_levels": {
+            "DEBUG": true,
+            "INFO": true,
+            "WARNING": true,
+            "ERROR": true
+        }
+    },
+    "html_parsing": {
+        "email_patterns": ["[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"]
+    },
+    "blacklisted_filetypes": ["jpg", "jpeg", "png", "gif", "bmp", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "zip", "rar", "tar", "gz", "7z"]
 }
 ```
 
 ### `example_output.json`
-```json
+```
 {
-    "example.com": [
-        {
-            "value": "contact@example.com",
-            "first_name": "John",
-            "last_name": "Doe",
-            "position": "Manager",
-            "confidence": 95
+    "example.com": {
+        "emails": [
+            {
+                "value": "contact@example.com",
+                "first_name": "John",
+                "last_name": "Doe",
+                "position": "Manager",
+                "confidence": 95
+            },
+            {
+                "value": "info@example.com",
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "position": "Director",
+                "confidence": 90
+            }
+        ],
+        "organization": {
+            "name": "Example Company",
+            "url": "https://www.example.com",
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+1-800-555-5555",
+                "contactType": "Customer Service"
+            },
+            "sameAs": [
+                "https://www.facebook.com/example",
+                "https://www.twitter.com/example",
+                "https://www.linkedin.com/company/example"
+            ]
         },
-        {
-            "value": "info@example.com",
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "position": "Director",
-            "confidence": 90
-        }
-    ],
-    "testsite.com": [
-        {
-            "value": "admin@testsite.com",
-            "first_name": "Alice",
-            "last_name": "Smith",
-            "position": "Admin",
-            "confidence": 92
+        "last_scraped": "2024-06-28"
+    },
+    "testsite.com": {
+        "emails": [
+            {
+                "value": "admin@testsite.com",
+                "first_name": "Alice",
+                "last_name": "Smith",
+                "position": "Admin",
+                "confidence": 92
+            },
+            {
+                "value": "support@testsite.com",
+                "first_name": "Bob",
+                "last_name": "Brown",
+                "position": "Support",
+                "confidence": 88
+            }
+        ],
+        "organization": {
+            "name": "Test Site",
+            "url": "https://www.testsite.com",
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+1-800-555-5555",
+                "contactType": "Customer Service"
+            },
+            "sameAs": [
+                "https://www.facebook.com/testsite",
+                "https://www.twitter.com/testsite",
+                "https://www.linkedin.com/company/testsite"
+            ]
         },
-        {
-            "value": "support@testsite.com",
-            "first_name": "Bob",
-            "last_name": "Brown",
-            "position": "Support",
-            "confidence": 88
-        }
-    ]
+        "last_scraped": "2024-06-28"
+    }
 }
 ```
 
 ### `example_output.csv`
-```csv
+```
 domain,email,first_name,last_name,position,confidence
 example.com,contact@example.com,John,Doe,Manager,95
 example.com,info@example.com,Jane,Doe,Director,90

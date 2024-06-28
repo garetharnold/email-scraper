@@ -50,7 +50,8 @@ def save_csv(data, output_file):
         writer.writerow(["domain", "email", "first_name", "last_name", "position", "confidence"])
         for domain, info in data.items():
             for email in info['emails']:
-                writer.writerow([domain, email["value"], email.get("first_name"), email.get("last_name"), email.get("position"), email.get("confidence")])
+                if 'value' in email:
+                    writer.writerow([domain, email["value"], email.get("first_name"), email.get("last_name"), email.get("position"), email.get("confidence")])
 
 def enrich_with_hunter(domain, config):
     if not config["api_keys"]["use_hunter"]:
@@ -76,12 +77,12 @@ def setup_logging(config):
     logging.basicConfig(
         filename=log_file,
         level=logging.DEBUG if log_levels["DEBUG"] else (logging.INFO if log_levels["INFO"] else (logging.WARNING if log_levels["WARNING"] else logging.ERROR)),
-        format='%(asctime)s - %(levelname)s - %(message)s',  # Corrected line
+        format='%(asctime)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     console = logging.StreamHandler()
     console.setLevel(logging.DEBUG if log_levels["DEBUG"] else (logging.INFO if log_levels["INFO"] else (logging.WARNING if log_levels["WARNING"] else logging.ERROR)))
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')  # Corrected line
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
 
@@ -112,7 +113,7 @@ def update_json_data(existing_data, domain, emails, org_info):
         existing_data[domain] = {"emails": [], "organization": {}, "last_scraped": today_str}
 
     existing_emails = {email['value'] for email in existing_data[domain]['emails']}
-    new_emails = [email for email in emails if email['value'] not in existing_emails]
+    new_emails = [email for email in emails if 'value' in email and email['value'] not in existing_emails]
     existing_data[domain]['emails'].extend(new_emails)
 
     if org_info:
