@@ -57,6 +57,7 @@ python3 orchestrator.py input.csv --ignore-certificate-errors
    - Logs all actions, errors, and progress with timestamps for easy debugging and monitoring.
 
 ### Enhanced Features:
+
 1. **Improved Error Handling:**
    - Implements detailed error logging to capture specific issues during scraping.
 
@@ -68,6 +69,15 @@ python3 orchestrator.py input.csv --ignore-certificate-errors
 
 4. **User-Agent Rotation:**
    - Not implemented yet.
+
+5. **Stop/Start Nature:**
+   - The script can be stopped and restarted without losing progress, ensuring that previously processed domains are not crawled again within the same day.
+
+6. **Continuous Writing and Graceful Interruption:**
+   - Continuously writes progress to the JSON file after processing each domain. Handles graceful interruptions by saving the current state before exiting.
+
+7. **Handling Duplicates:**
+   - Ensures that duplicate emails are not added to the JSON file. Updates existing records only if new information is found.
 
 ## Use Cases
 - **Lead Generation:**
