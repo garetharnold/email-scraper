@@ -3,6 +3,11 @@
 ## Overview
 This script is designed to scrape email addresses from a list of URLs provided in a CSV file. It is equipped with robust features to extract emails from both HTML source and rendered content, follow contact page links, and enrich data using the Hunter.io API. Additionally, it supports structured data extraction and customizable settings via a configuration file.
 
+```
+python3 orchestrator.py (shows possible args)
+python3 orchestrator.py input.csv 
+```
+
 ## Features
 
 ### Core Features:
