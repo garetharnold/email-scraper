@@ -1,83 +1,90 @@
-
 # Email Scraper Script
 
-This script scrapes email addresses from a list of URLs provided in a CSV file. It also allows for email enrichment using the [Hunter.io API](https://hunter.io/) and supports converting JSON output to CSV format.
+## Overview
+This script is designed to scrape email addresses from a list of URLs provided in a CSV file. It is equipped with robust features to extract emails from both HTML source and rendered content, follow contact page links, and enrich data using the Hunter.io API. Additionally, it supports structured data extraction and customizable settings via a configuration file.
 
 ## Features
 
-- Scrapes email addresses from URLs.
-- Follows "contact" links to find additional emails.
-- Enriches email data using [Hunter.io API](https://hunter.io/) (if configured).
-- Handles URLs without HTTP/HTTPS schema.
-- Logs all actions, errors, and progress.
-- Supports converting JSON output to CSV format.
-- Excludes emails with blacklisted file extensions (e.g., .jpg, .png).
+### Core Features:
+1. **Email Scraping:**
+   - Extracts email addresses from the provided URLs.
 
-## Requirements
+2. **Contact Page Discovery:**
+   - Uses keywords to find and follow links to contact pages.
 
-- Python 3.6 or higher
-- Playwright
-- Requests
+3. **HTML Source and Rendered Content Analysis:**
+   - Scrapes email addresses from both the HTML source and the rendered content of web pages.
 
-## Installation
+4. **Hunter.io API Integration:**
+   - Enriches email data using the Hunter.io API if configured.
 
-1. **Install required Python packages:**
-    ```sh
-    pip install playwright requests
-    playwright install
-    ```
+5. **Schema.org Parsing:**
+   - Extracts organization information from schema.org structured data.
 
-2. **Clone the repository and navigate to the directory:**
-    ```sh
-    git clone <repository_url>
-    cd <repository_directory>
-    ```
+6. **Blacklist Filtering:**
+   - Excludes emails with specific blacklisted file extensions.
 
-3. **Replace `your_hunter_api_key` in `config.json` with your actual Hunter API key.**
+7. **Output Formats:**
+   - Supports both JSON and CSV output formats.
 
-## Usage
+8. **Logging:**
+   - Logs all actions, errors, and progress with timestamps for easy debugging and monitoring.
 
-### Scraping Emails
+### Enhanced Features:
+1. **Improved Error Handling:**
+   - Implements detailed error logging to capture specific issues during scraping.
 
-To scrape emails from URLs provided in a CSV file:
+2. **Timeout and Retry Logic:**
+   - Configurable timeout settings for page loads and retry logic to handle temporary failures.
 
-```sh
-python email_scraper.py input.csv -o csv
-```
+3. **SSL Certificate Handling:**
+   - Options to ignore SSL certificate errors.
 
-- `input.csv`: The input CSV file containing URLs.
-- `-o csv`: Specifies the output format. Options are `json` (default) or `csv`.
+4. **User-Agent Rotation:**
+   - Rotates user-agents to mimic different browsers and avoid detection.
 
-### Converting JSON to CSV
+## Use Cases
+- **Lead Generation:**
+  - Automatically scrape email addresses from industry websites for building a leads database.
+  
+- **Market Research:**
+  - Gather contact information from competitor or industry websites.
 
-To convert a JSON output file to CSV format:
+- **Data Enrichment:**
+  - Use the Hunter.io API to enrich email data with additional information such as names and positions.
 
-```sh
-python email_scraper.py -convert input.json
-```
+- **Web Monitoring:**
+  - Monitor and collect contact information from multiple websites for outreach purposes.
 
-- `-convert`: Flag to indicate conversion from JSON to CSV.
-- `input.json`: The JSON file to be converted.
+## Configuration
+The script uses a `config.json` file for configuration, allowing customization of various settings:
 
-### Configuration
+### Configuration Options:
 
-The script uses a `config.json` file for configuration:
+- **Scraping Settings:**
+  - `wait_time`: Time to wait between requests to avoid getting blocked.
+  - `timeout`: Maximum time to wait for a page to load.
+  - `retry_attempts`: Number of retry attempts for failed requests.
 
-```json
-{
-    "api_key": "your_hunter_api_key",
-    "use_hunter": true,
-    "wait_time": 1
-}
-```
+- **Search Keywords:**
+  - `contact_keywords`: List of keywords to look for in URLs or link texts to identify contact pages.
 
-- `api_key`: Your Hunter.io API key.
-- `use_hunter`: Boolean flag to enable or disable Hunter.io enrichment.
-- `wait_time`: Time in seconds to wait between requests.
+- **Output Settings:**
+  - `enable_csv`: Boolean to enable CSV output in addition to JSON.
+  - `enable_schema_crawling`: Boolean to enable or disable schema.org structured data crawling.
 
-## Logging
+- **API Keys:**
+  - `use_hunter`: Boolean to determine whether to use the Hunter API for email enrichment.
+  - `hunter_api_key`: API key for the Hunter API.
 
-The script generates a log file with a name in the format `email-scrape-log-YYYY-MM-DD.log`. It logs all actions, errors, and progress with timestamps and status codes.
+- **Logging Settings:**
+  - `log_levels`: A dictionary of log levels with boolean values to enable or disable each level.
+
+- **HTML Parsing:**
+  - `email_patterns`: List of regular expressions for email patterns to detect different email formats.
+
+- **Blacklisted Filetypes:**
+  - `blacklisted_filetypes`: List of file extensions to exclude when validating email addresses.
 
 ## Example Files
 

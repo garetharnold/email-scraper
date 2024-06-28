@@ -1,0 +1,11 @@
+# Ignore CSV files
+*.csv
+
+# Ignore log files
+*.log
+
+# Ignore __pycache__ directory
+__pycache__/
+
+# Ignore config.json file
+config.json

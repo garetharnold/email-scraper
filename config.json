@@ -1,5 +1,41 @@
 {
-    "api_key": "",
-    "use_hunter": false,
-    "wait_time": 1
+    "scraping_settings": {
+        "wait_time": 1,
+        "timeout": 30000,
+        "retry_attempts": 3
+    },
+    "search_keywords": {
+        "contact_keywords": ["contact", "support", "help", "about", "info"]
+    },
+    "output_settings": {
+        "enable_csv": false,
+        "enable_schema_crawling": true
+    },
+    "api_keys": {
+        "use_hunter": false,
+        "hunter_api_key": "your_hunter_api_key_here"
+    },
+    "logging_settings": {
+        "log_levels": {
+            "DEBUG": true,
+            "INFO": true,
+            "WARNING": true,
+            "ERROR": true
+        }
+    },
+    "html_parsing": {
+        "email_patterns": ["[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"]
+    },
+    "blacklisted_filetypes": ["jpg", "jpeg", "png", "gif", "bmp", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "zip", "rar", "tar", "gz", "7z"],
+    "user_agent_settings": {
+        "enable_user_agent_rotation": true,
+        "user_agents": [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:76.0) Gecko/20100101 Firefox/76.0",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1",
+            "Mozilla/5.0 (iPad; CPU OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1"
+        ]
+    }
 }
